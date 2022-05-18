@@ -1,0 +1,71 @@
+<configuration packagingData="false" debug="true">
+
+	<!-- VARIABLES -->
+	<timestamp key="logDate" datePattern="dd-MM-yyyy" />
+
+	<!-- APPENDERCONSOLE -->
+	<appender name="ErnestocfLog"
+		class="ch.qos.logback.core.ConsoleAppender">
+
+		<encoder
+			class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+
+			<layout class="com.nttdata.nttdatacenters_logback_t1_ernestocf.AppLayout">
+				<prefix>ErnestocfLayout</prefix>
+				<printThreadName>true</printThreadName>
+			</layout>
+
+		</encoder>
+	</appender>
+
+	<!-- FILEAPPENDER 1 -->
+	<appender name="ErnestocfLogFA"
+		class="ch.qos.logback.core.FileAppender">
+		<file>C://dev//logs//logernestocf-${logDate}.log</file>
+		<append>false</append>
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- FILEAPPENDER 2 (ÚNICO) -->
+	<appender name="ErnestocfLogFA2"
+		class="ch.qos.logback.core.FileAppender">
+		<file>C://dev//logs//logernestocf-${logDate}.log</file>
+		<append>true</append>
+		<immediateFlush>true</immediateFlush>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- ROLLINGFILEAPPENDER -->
+	<appender name="ErnestocfLogRA"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>C://dev//logs//logernestocf-${logDate}.log</file>
+		<append>true</append>
+		<immediateFlush>false</immediateFlush>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>C://dev//logs//logernestocf-${logDate}.%i.log.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50KB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%method] - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- LOGGER -->
+	<root level="info">
+		<appender-ref ref="ErnestocfLogRA" />
+	</root>
+
+</configuration>
